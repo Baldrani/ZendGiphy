@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace Application\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Psr\Container\ContainerInterface;
 
 final class PingControllerFactory
 {
     public function __invoke(ContainerInterface $container) : PingController
     {
-        $dateTime = $container->get(\DateTimeImmutable::class);
+        $date = $container->get(\DateTimeImmutable::class);
 
-        return new PingController($dateTime);
+        $entityManage = $container->get(EntityManager::class);
+        $filmRepository = $entityManage->getRepository(Film::class);
+
+        return new PingController($date, $filmRepository;
     }
 }
